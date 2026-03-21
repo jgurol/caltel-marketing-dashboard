@@ -1,4 +1,7 @@
 {
+  "version": 2,
+  "buildCommand": null,
+  "outputDirectory": ".",
   "rewrites": [
     { "source": "/api/auth/login", "destination": "/api/auth/login" },
     { "source": "/api/auth/me", "destination": "/api/auth/me" },
