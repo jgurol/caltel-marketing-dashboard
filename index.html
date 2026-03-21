@@ -4397,15 +4397,7 @@
     let socket = null;
     let lastUpdate = null;
 
-    function connectSocket() { /* Socket.IO not available on Vercel */ });
-        socket.on('dashboard-update', (data) => {
-            // WebSocket broadcasts unfiltered data — ignore it and let the
-            // periodic loadOverviewBundle (which uses brand filter) handle updates.
-            // Only update the timestamp display.
-            lastUpdate = new Date();
-            updateLastUpdated();
-        });
-    }
+    function connectSocket() { /* Socket.IO not available on Vercel */ }
 
     function updateConnectionStatus(connected) {
         const el = document.getElementById('connection-status');
