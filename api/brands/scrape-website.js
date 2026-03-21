@@ -8,8 +8,9 @@ module.exports = async function handler(req, res) {
   const user = requireAuth(req, res);
   if (!user) return;
 
-  const { url } = req.body || {};
+  let { url } = req.body || {};
   if (!url) return res.status(400).json({ error: 'url required' });
+  if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
 
   try {
     const GOOGLE_AI_KEY = process.env.GOOGLE_AI_KEY;
