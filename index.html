@@ -1734,44 +1734,17 @@
         });
         const data = await res.json();
         if (!data.success) { toast('Scrape failed: ' + data.error, 'error'); return; }
-        const s = data.scraped;
 
         // Auto-fill fields (only if currently empty)
         const fillIfEmpty = (id, val) => { if (val && !document.getElementById(id).value.trim()) document.getElementById(id).value = val; };
-        fillIfEmpty('brand-description', s.description);
-        fillIfEmpty('brand-tagline', s.title);
-
-        // Colors — always suggest
-        if (s.suggestedPrimary) {
-          document.getElementById('brand-color').value = s.suggestedPrimary;
-          document.getElementById('brand-color-text').value = s.suggestedPrimary;
-        }
-        if (s.suggestedSecondary) {
-          document.getElementById('brand-color2').value = s.suggestedSecondary;
-          document.getElementById('brand-color2-text').value = s.suggestedSecondary;
-        }
-        if (s.suggestedAccent) {
-          document.getElementById('brand-color3').value = s.suggestedAccent;
-          document.getElementById('brand-color3-text').value = s.suggestedAccent;
-        }
-
-        // Logo
-        if (s.logoPublicUrl) {
-          document.getElementById('brand-logo').value = s.logoPublicUrl;
-          document.getElementById('brand-logo-preview').src = s.logoLocalUrl || s.logoPublicUrl;
-          document.getElementById('brand-logo-preview').style.display = '';
-          document.getElementById('brand-logo-status').textContent = '✅ Logo scraped from website';
-        }
-
-        // Show all scraped colors as clickable swatches
-        if (s.colors && s.colors.length > 0) {
-          const info = `Found ${s.colors.length} colors: ` + s.colors.map(c => c).join(', ');
-          toast(`🎨 ${info}`, 'success');
-        }
+        fillIfEmpty('brand-description', data.description);
+        fillIfEmpty('brand-tagline', data.tagline);
+        fillIfEmpty('brand-name', data.name);
 
         toast('✅ Website scraped! Fields auto-filled.', 'success');
-      } catch (e) { toast('Scrape error: ' + e.message, 'error'); }
-      btnReset(btn, '🔍 Scrape from Website');
+      } catch (e) { toast('Scrape error: ' + e.message, 'error'); } finally {
+        btnReset(btn, '🔍 Scrape from Website');
+      }
     }
 
     async function deleteBrand() {
