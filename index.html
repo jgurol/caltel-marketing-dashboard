@@ -1735,11 +1735,14 @@
         const data = await res.json();
         if (!data.success) { toast('Scrape failed: ' + data.error, 'error'); return; }
 
-        // Auto-fill fields (only if currently empty)
-        const fillIfEmpty = (id, val) => { if (val && !document.getElementById(id).value.trim()) document.getElementById(id).value = val; };
-        fillIfEmpty('brand-description', data.description);
-        fillIfEmpty('brand-tagline', data.tagline);
-        fillIfEmpty('brand-name', data.name);
+        // Auto-fill fields from scraped data
+        const fill = (id, val) => { if (val) document.getElementById(id).value = val; };
+        fill('brand-name', data.name);
+        fill('brand-tagline', data.tagline);
+        fill('brand-description', data.description);
+        fill('brand-products', data.products);
+        fill('brand-mission', data.mission);
+        fill('brand-values', data.values);
 
         toast('✅ Website scraped! Fields auto-filled.', 'success');
       } catch (e) { toast('Scrape error: ' + e.message, 'error'); } finally {
